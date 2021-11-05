@@ -3,7 +3,7 @@ services:
   apache:
     image: php:7.3.32-apache
     environment:
-      - PASSWORD=${PASSWORD} # optional
+      - PASSWORD=${PASSWORD:-} # optional
     ports:
       - 80:80
     volumes:

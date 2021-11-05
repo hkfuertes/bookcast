@@ -41,7 +41,7 @@
         $folders = glob($localPodcastsFolder."/*", GLOB_ONLYDIR);
         foreach($folders as $folder){
             $podcastLink = $host."/".basename($folder)."/podcast.xml";
-            if($password != null)
+            if($password != null && $password!="")
                 $podcastLink.="?password=".$password;
             $info = json_decode(file_get_contents($folder."/info.json"),true);
             echo "<b>Title: </b>".$info['title']."<br/>";
