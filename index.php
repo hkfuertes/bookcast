@@ -18,7 +18,6 @@
     $folder = str_replace("/podcast.xml","",htmlspecialchars($_GET["dir"]));
  
     if($folder != null){
-        include_once("mp3file.class.php");
         /**
             Info -> title, author, summary,
             Paths -> localPodcastFolder, podcastFolderUrl, podcastLink
