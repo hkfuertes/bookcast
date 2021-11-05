@@ -1,7 +1,7 @@
 <?php
     //If password is set, then we enforce it.
     $password = getenv('PASSWORD',null);
-    if($password!= null){
+    if($password!= null && $password != ""){
         if($password != htmlspecialchars($_GET["password"])){
             header('HTTP/1.0 401 Unauthorized');
             die("Not authorized!");
