@@ -18,7 +18,7 @@
     $folder = str_replace("/podcast.xml","",htmlspecialchars($_GET["dir"]));
  
     if($folder != null){
-        include_once("libs/mp3file.class.php");
+        include_once("mp3file.class.php");
         /**
             Info -> title, author, summary,
             Paths -> localPodcastFolder, podcastFolderUrl, podcastLink
@@ -36,7 +36,6 @@
         header ("Content-Type:text/xml");
         print $xml->saveXML();
     }else{
-        include_once("libs/phpqrcode.php");
         echo "<h1>List of AudioBooks:</h1>";
         $folders = glob($localPodcastsFolder."/*", GLOB_ONLYDIR);
         foreach($folders as $folder){
@@ -49,19 +48,6 @@
             //echo $podcastLink."<br/>";
             echo "<a href='$podcastLink'>Feed</a><br/>";
             echo "<br/>";
-
-            $text = QRcode::text($podcastLink);
-            $raw = join("<br/>", $text);
-            
-            $raw = strtr($raw, array(
-                '0' => '<span style="color:white">&#9608;&#9608;</span>',
-                '1' => '&#9608;&#9608;'
-            ));
-            
-            // displaying
-            
-            echo '<tt style="font-size:7px">'.$raw.'</tt>'; 
-            echo "<br/><br/><br/>";
         }
     }
 
