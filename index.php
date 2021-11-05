@@ -42,12 +42,15 @@
             $podcastLink = $host."/".basename($folder)."/podcast.xml";
             if($password != null && $password!="")
                 $podcastLink.="?password=".$password;
-            $info = json_decode(file_get_contents($folder."/info.json"),true);
-            echo "<b>Title: </b>".$info['title']."<br/>";
-            echo "<b>Author: </b>".$info['author']."<br/>";
-            //echo $podcastLink."<br/>";
-            echo "<a href='$podcastLink'>Feed</a><br/>";
-            echo "<br/>";
+            @$info = json_decode(file_get_contents($folder."/info.json"),true);
+            if($info != null){
+                echo "<b>Title: </b>".$info['title']."<br/>";
+                echo "<b>Author: </b>".$info['author']."<br/>";
+                //echo $podcastLink."<br/>";
+                echo "<a href='$podcastLink'>Feed</a><br/>";
+                echo "<br/>";
+            }
+            
         }
     }
 
@@ -115,11 +118,8 @@
             $enclosure->setAttribute('length', filesize($episode)); 
             $enclosure->setAttribute('type', finfo_file($finfo, $episode)); 
 
-            $item->appendChild($xml->createElement('pubDate', date('D, d M Y H:i:s O'))); 
-
-            $mp3file = new MP3File($episode); 
-            $item->appendChild($xml->createElement('itunes:duration', MP3File::formatTime($mp3file->getDurationEstimate())));
-        } 
+            $item->appendChild($xml->createElement('pubDate', date('D, d M Y H:i:s O', filectime($episode)))); 
+} 
 
         $xml->formatOutput = true;
         return $xml; 
