@@ -14,6 +14,7 @@ To start the program:
   }
   ```
 - *[OPTIONAL]* Add a `cover.jpg` file also inside the podcast/audiobook folder.
+- *[OPTIONAL]* Add an empty file named `EPISODES_NO_TITLE` inside the podcast/audiobook folder, if you dont want the title on every chapter.
 - *[OPTIONAL]* Set a password:
   - Rename `.env.dist` onto `.env` and set the password inside.
 - Run `docker-compose up`
