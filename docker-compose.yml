@@ -5,7 +5,7 @@ services:
     environment:
       - PASSWORD=${PASSWORD:-} # optional
     ports:
-      - 80:80
+      - ${PORT:-80}:80
     volumes:
       - ./:/var/www/html
     command: /bin/bash -c "a2enmod rewrite && apachectl -D FOREGROUND"
