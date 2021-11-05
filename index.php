@@ -105,7 +105,16 @@
             $audioURL = $paths['podcastFolderUrl']."/".basename($episode);
 
             $item = $chan->appendChild($xml->createElement('item')); 
-            $item->appendChild($xml->createElement('title', $info['title']." [".basename($episode)."]")); 
+
+            if(file_exists($paths['localPodcastFolder']."/EPISODES_NO_TITLE")){
+                $title = str_replace(".mp3","",basename($episode));
+                $title = str_replace("_"," ", $title);
+                $title = str_replace("  ", " ", $title);
+                $item->appendChild($xml->createElement('title',$title));
+            }else{
+                $item->appendChild($xml->createElement('title', $info['title']." [".basename($episode)."]")); 
+            }
+
             $item->appendChild($xml->createElement('link', $audioURL)); 
             $item->appendChild($xml->createElement('itunes:author', $info['author'])); 
             $item->appendChild($xml->createElement('itunes:summary', $info['summary'])); 
