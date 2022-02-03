@@ -1,0 +1,9 @@
+{
+  "title": "TITLE",
+  "author": "AUTHOR",
+  "summary": "SUMMARY OF THE BOOK",
+  "chapters": {
+    "FILENAME_FOR_EPISODE_01": "NAME_OF_THE_EPISODE_1",
+    "FILENAME_FOR_EPISODE_02": "NAME_OF_THE_EPISODE_2"
+  }
+}

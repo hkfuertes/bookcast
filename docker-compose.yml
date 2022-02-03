@@ -2,10 +2,8 @@ version: '2'
 services:
   apache:
     image: php:7.3.32-apache
-    environment:
-      - PASSWORD=${PASSWORD:-} # optional
     ports:
-      - ${PORT:-80}:80
+      - 8321:80
     volumes:
       - ./:/var/www/html
     command: /bin/bash -c "a2enmod rewrite && apachectl -D FOREGROUND"
