@@ -74,22 +74,22 @@
             $chan->appendChild($image);
         }
         
-        foreach ($fileList as $episode) { 
+        foreach ($fileList as $index => $episode) { 
             $episodeName = array_reverse(explode("/", $episode))[0];
             $audioURL = str_replace("/","/",$paths['folderUrl'].basename($episode));
 
             $item = $chan->appendChild($xml->createElement('item')); 
 
             if (array_key_exists("chapters",$info) && array_key_exists($episodeName, $info['chapters'])){
-                $item->appendChild($xml->createElement('title',$info['chapters'][$episodeName]));
+                $item->appendChild($xml->createElement('title',str_pad($index, 2, '0', STR_PAD_LEFT).". ".$info['chapters'][$episodeName]));
             }else{
                 if(file_exists($paths['localFolder']."/EPISODES_NO_TITLE")){
                     $title = str_replace(".mp3","",basename($episode));
                     $title = str_replace("_"," ", $title);
                     $title = str_replace("  ", " ", $title);
-                    $item->appendChild($xml->createElement('title',$title));
+                    $item->appendChild($xml->createElement('title',str_pad($index, 2, '0', STR_PAD_LEFT).". ".$title));
                 }else{
-                    $item->appendChild($xml->createElement('title', $info['title']." [".basename($episode)."]")); 
+                    $item->appendChild($xml->createElement('title', str_pad($index, 2, '0', STR_PAD_LEFT).". ".$info['title']." [".basename($episode)."]")); 
                 }
             }
             
