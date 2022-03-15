@@ -74,6 +74,9 @@
             $chan->appendChild($image);
         }
         
+        $now= new DateTime();
+        $number_padding=0;
+        $show_number = false;
         foreach ($fileList as $index => $episode) { 
             $episodeName = array_reverse(explode("/", $episode))[0];
             $audioURL = str_replace("/","/",$paths['folderUrl'].basename($episode));
@@ -81,15 +84,27 @@
             $item = $chan->appendChild($xml->createElement('item')); 
 
             if (array_key_exists("chapters",$info) && array_key_exists($episodeName, $info['chapters'])){
-                $item->appendChild($xml->createElement('title',str_pad($index, 2, '0', STR_PAD_LEFT).". ".$info['chapters'][$episodeName]));
-            }else{
+                if($show_number){
+                    $item->appendChild($xml->createElement('title',str_pad($index, $number_padding, '0', STR_PAD_LEFT).". ".$info['chapters'][$episodeName]));
+                }else{
+                    $item->appendChild($xml->createElement('title',$info['chapters'][$episodeName]));
+                }
+                }else{
                 if(file_exists($paths['localFolder']."/EPISODES_NO_TITLE")){
                     $title = str_replace(".mp3","",basename($episode));
                     $title = str_replace("_"," ", $title);
                     $title = str_replace("  ", " ", $title);
-                    $item->appendChild($xml->createElement('title',str_pad($index, 2, '0', STR_PAD_LEFT).". ".$title));
+                    if($show_number){
+                        $item->appendChild($xml->createElement('title',str_pad($index, $number_padding, '0', STR_PAD_LEFT).". ".$title));
+                    }else{
+                        $item->appendChild($xml->createElement('title',$title));
+                    }
                 }else{
-                    $item->appendChild($xml->createElement('title', str_pad($index, 2, '0', STR_PAD_LEFT).". ".$info['title']." [".basename($episode)."]")); 
+                    if($show_number){
+                        $item->appendChild($xml->createElement('title', str_pad($index, $number_padding, '0', STR_PAD_LEFT).". ".$info['title']." [".basename($episode)."]")); 
+                    }else{
+                        $item->appendChild($xml->createElement('title',$info['title']." [".basename($episode)."]")); 
+                    }
                 }
             }
             
@@ -104,7 +119,8 @@
             $enclosure->setAttribute('length', filesize($episode)); 
             $enclosure->setAttribute('type', finfo_file($finfo, $episode)); 
 
-            $item->appendChild($xml->createElement('pubDate', date('D, d M Y H:i:s O', filectime($episode)))); 
+            //$item->appendChild($xml->createElement('pubDate', date('D, d M Y H:i:s O', filectime($episode))));
+            $item->appendChild($xml->createElement('pubDate', date('D, d M Y H:i:s O', (strtotime("+".$index." seconds", $now->getTimestamp())) ))); 
 } 
 
         $xml->formatOutput = true;
